@@ -38,11 +38,11 @@ let InputPath = getRunnerInput(
     getRunnerPath
 );
 let InputPathIsDir = false
-try {
+//try {
     InputPathIsDir = fs.lstatSync(InputPath).isDirectory();
-} catch {
-    throw `Given input path, ${InputPath}, was not found in filesystem!`;
-}
+//} catch {
+//    throw `Given input path, ${InputPath}, was not found in filesystem!`;
+//}
 
 if (InputPathIsDir) {
     InputPath += InputPath.endsWith("/") ? "" : "/"
