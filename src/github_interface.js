@@ -37,7 +37,12 @@ let InputPath = getRunnerInput(
     getRunnerInput('input_dir', '', getRunnerPath),
     getRunnerPath
 );
-let InputPathIsDir = true
+let InputPathIsDir = false
+try {
+    InputPathIsDir = fs.lstatSync(InputPath).isDirectory();
+} catch {
+    throw `Given input path, ${InputPath}, was not found in filesystem!`;
+}
 
 if (InputPathIsDir) {
     InputPath += InputPath.endsWith("/") ? "" : "/"
@@ -91,7 +96,11 @@ function CreateOutputDirectory(dirname) {
 // NOTE: When a file name is the same, eg. happy.md and happy.markdown, only one file is
 // outputted as it will be overwritten. This needs to be checked. (TODO:)
 function GetMarkdownFiles(files) {
-    return files;
+    return files.filter(function (filePath) {
+        if (path.extname(filePath).match(/^(.md|.markdown)$/)) {
+            return true;
+        }
+    });
 }
 
 // GetFileBody retrieves the file content as a string
